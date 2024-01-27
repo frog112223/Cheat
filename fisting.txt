@@ -1,0 +1,89 @@
+-- Создаем ScreenGui
+local gui = Instance.new("ScreenGui")
+gui.Parent = game.Players.LocalPlayer.PlayerGui
+ 
+-- Создаем основной Frame для разделов
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 200, 0, 500)
+mainFrame.Position = UDim2.new(0, 10, 0, 10)
+mainFrame.BackgroundColor3 = Color3.new(0, 0, 0)
+mainFrame.BackgroundTransparency = 0.5
+mainFrame.Parent = gui
+ 
+-- Раздел "Телепортации"
+local teleportFrame = Instance.new("Frame")
+teleportFrame.Size = UDim2.new(0, 180, 0, 180)
+teleportFrame.Position = UDim2.new(0, 10, 0, 10)
+teleportFrame.BackgroundColor3 = Color3.new(1, 1, 1)
+teleportFrame.Parent = mainFrame
+ 
+-- Кнопки телепортации
+local teleportButtons = {
+    {name = "Блек Маркет", position = Vector3.new(479.2645263671875, 1.0000008344650269, -799.1627197265625)},
+    {name = "Барыга", position = Vector3.new(982.2308959960938, 4.500000953674316, 428.15509033203125)},
+{name = "Веревке", position = Vector3.new(479, 1.0000008344650269, -799.1627197265625)},
+    {name = "Гаечному Ключу", position = Vector3.new(693.8155517578125, 0.5608237385749817, 391.0128479003906)},
+    {name = "Знамени", position = Vector3.new(655.058837890625, 11.489288330078125, -425.48724365234375)},
+    {name = "Лопате", position = Vector3.new(384.1850891113281, 0.3808821439743042, 79.47959899902344)},
+    {name = "Пружине", position = Vector3.new(389.5827941894531, 0.6749992966651917, 15.88555908203125)},
+    {name = "С_Бите", position = Vector3.new(-159.41416931152344, 0.9837112426757812, -108.65989685058594)},
+    {name = "Сковородке", position = Vector3.new(51.28190994262695, 15.462207794189453, 103.53482818603516)},
+    {name = "Скотчу", position = Vector3.new(354.011962890625, 0.4768110513687134, -42.099029541015625)},
+    {name = "Арматуре", position = Vector3.new(102.82846069335938, 0.3500000238418579, 8.88751220703125)},
+    {name = "Бревну", position = Vector3.new(208.699951171875, 0.125, 4.20562744140625)},
+    {name = "Кирпичу", position = Vector3.new(503.4656066894531, 0.4006681442260742, 94.51216125488281)},
+}
+    -- Добавьте остальные кнопки телепортации
+}
+ 
+-- Создаем кнопки и их обработчики
+for _, buttonData in ipairs(teleportButtons) do
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0, 160, 0, 30)
+    button.Position = UDim2.new(0, 10, 0, ((_ - 1) * 35) + 10)
+    button.BackgroundColor3 = Color3.new(0.5, 0.5, 0.5)
+    button.Text = buttonData.name
+    button.Parent = teleportFrame
+ 
+    -- Обработчик клика по кнопке
+    button.MouseButton1Click:Connect(function()
+        -- Телепортация к указанным координатам
+        game.Players.LocalPlayer.Character:MoveTo(buttonData.position)
+    end)
+end
+ 
+-- Раздел "Телепортация к игроку"
+local teleportPlayerFrame = Instance.new("Frame")
+teleportPlayerFrame.Size = UDim2.new(0, 180, 0, 120)
+teleportPlayerFrame.Position = UDim2.new(0, 10, 0, 200)
+teleportPlayerFrame.BackgroundColor3 = Color3.new(0.8, 0.8, 0.8)
+teleportPlayerFrame.Parent = mainFrame
+ 
+-- Поле ввода для ника игрока
+local playerNameInput = Instance.new("TextBox")
+playerNameInput.Size = UDim2.new(0, 160, 0, 30)
+playerNameInput.Position = UDim2.new(0, 10, 0, 10)
+playerNameInput.BackgroundColor3 = Color3.new(1, 1, 1)
+playerNameInput.Text = "Введите ник"
+playerNameInput.Parent = teleportPlayerFrame
+ 
+-- Кнопка телепортации к игроку
+local teleportPlayerButton = Instance.new("TextButton")
+teleportPlayerButton.Size = UDim2.new(0, 160, 0, 30)
+teleportPlayerButton.Position = UDim2.new(0, 10, 0, 50)
+teleportPlayerButton.BackgroundColor3 = Color3.new(0.5, 0.5, 0.5)
+teleportPlayerButton.Text = "Телепортировать к игроку"
+teleportPlayerButton.Parent = teleportPlayerFrame
+ 
+-- Обработчик клика по кнопке телепортации к игроку
+teleportPlayerButton.MouseButton1Click:Connect(function()
+    local playerName = playerNameInput.Text
+    local player = game.Players:FindFirstChild(playerName)
+    
+    if player then
+        game.Players.LocalPlayer.Character:MoveTo(player.Character.HumanoidRootPart.Position)
+    else
+        print("Игрок с ником", playerName, "не найден.")
+    end
+end)
+ 
